@@ -36,6 +36,7 @@ Clonar el repositorio:
 ```bash
 git clone https://github.com/tu-usuario/chatify.git
 cd chatify
+```
 
 ---
 
@@ -45,6 +46,7 @@ cd chatify
 cd frontend
 npm install
 npm run dev
+```
 
 ## 🧪 Desarrollo del Backend
 
@@ -52,6 +54,7 @@ npm run dev
 cd backend
 npm install
 npm run dev
+```
 
 ---
 
@@ -60,3 +63,4 @@ En la raiz del proyecto
 ```bash
 npm run build 
 npm run start
+```
