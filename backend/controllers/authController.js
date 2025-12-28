@@ -1,6 +1,10 @@
 import User from "../db/models/user.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../middlewares/jwtvalidator.js";
+import { sendWelcomeEmail } from "../emails/emailHandler.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const signup = async (req,res) =>{
     const {fullName,email,password} = req.body;
@@ -30,12 +34,19 @@ export const signup = async (req,res) =>{
         })
         if(newUser){
             generateToken(newUser._id,res);
-            await newUser.save()
+            const savedUser = await newUser.save();
             res.status(201).json({
                 _id:newUser._id,
                 fullName:newUser.fullName,
                 email:newUser.email,
             });
+
+            try{
+                await sendWelcomeEmail(savedUser.email,savedUser.fullName,process.env.CLIENT_URL);
+            }
+            catch(error){
+                console.error("Error al enviar el mail",error);
+            }
         }else{
             res.status(400).json({message:"Dato de usuario invalido"})
         }
