@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../middlewares/jwtvalidator.js";
 import { sendWelcomeEmail } from "../emails/emailHandler.js";
 import dotenv from "dotenv";
+import cloudinary from "../utils/cloudinary.js";
 
 dotenv.config();
 
@@ -87,4 +88,23 @@ export const login = async (req,res) => {
 export const logout = (_,res) => {
     res.cookie("jwt","",{maxAge:0});
     res.status(200).json({message:"Logout exitoso"});
+}
+
+export const updateProfile = async (req,res) => {
+    try{
+        const {profilePic} = req.body;
+        if(!profilePic) return res.status(400).json({message:"Se necesita foto de perfil"});
+        const userId = req.user._id;
+
+        const response = await cloudinary.uploader.upload(profilePic);
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            {profilePic:uploadResponse.secure_url},
+            {new:true}
+        );
+        res.status(200).json(updatedUser);
+    }
+    catch(e){
+        console.error("Error al actualizar foto de perfil",e);
+        res.stauts(500).json({message:"Internal server error"});
+    }
 }
