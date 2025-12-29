@@ -39,6 +39,7 @@ export const signup = async (req,res) =>{
                 _id:newUser._id,
                 fullName:newUser.fullName,
                 email:newUser.email,
+                profilePic:newUser.profilePic,
             });
 
             try{
@@ -58,4 +59,32 @@ export const signup = async (req,res) =>{
             message:"Internal server error"
         });
     }
+}
+
+export const login = async (req,res) => {
+    const {email,password} = req.body;
+    try{
+        const user = await User.findOne({email});
+        console.log(user);
+        if(!user) return res.status(400).json({message:"Credenciales invalidos"});
+        const isPasswordCorrect = await bcrypt.compare(password,user.password);
+        if(!isPasswordCorrect) return res.status(400).json({message:"Credenciales invalidos"});
+
+        generateToken(user._id,res);
+        res.status(200).json({
+            _id: user._id,
+            fullName: user.fullName,
+            email: user.email,
+            profilePic: user.profilePic,
+        })
+    }
+    catch(e){
+        console.error("Error en el controller login",e);
+        res.status(500).json({message:"Internal Server Error"});
+    }
+}
+
+export const logout = (_,res) => {
+    res.cookie("jwt","",{maxAge:0});
+    res.status(200).json({message:"Logout exitoso"});
 }
