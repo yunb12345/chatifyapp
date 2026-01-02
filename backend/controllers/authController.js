@@ -1,4 +1,4 @@
-import User from "../db/models/user.js";
+import User from "../db/models/User.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../middlewares/jwtvalidator.js";
 import { sendWelcomeEmail } from "../emails/emailHandler.js";
