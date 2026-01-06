@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
 import { Mail, Lock, User, ArrowRight, Quote } from "lucide-react"
 import Nav from "../Nav"
+import {useAuthStore} from "../../store/useAuthStore";
 
 export default function AuthPage() {
+  const {signup,isSigningUp} = useAuthStore();
   const [isRegister, setIsRegister] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +25,13 @@ export default function AuthPage() {
     e.preventDefault()
     if (isRegister) {
       // Handle registration
-      console.log("Registro:", formData)
+      const payload = {
+        fullName: formData.name,
+        email:formData.email,
+        password:formData.password,
+      }
+      signup(payload);
+      //console.log("Registro:", formData)
     } else {
       // Handle login
       console.log("Login:", { email: formData.email, password: formData.password })
@@ -303,6 +311,7 @@ export default function AuthPage() {
 
                 <button
                   type="submit"
+                  disabled={isSigningUp}
                   className="w-full px-8 py-3 border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 rounded-full"
                 >
                   {isRegister ? "CREAR CUENTA" : "INICIAR SESIÓN"}
