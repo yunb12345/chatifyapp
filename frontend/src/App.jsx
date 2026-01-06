@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from './LandingPage.jsx';
 import ChatDemo from './components/views/chatdemo.jsx';
 import AuthPage from './components/views/AuthPage.jsx';
+import PageLoader from './components/PageLoader.jsx';
 
 import { useAuthStore } from './store/useAuthStore.jsx';
 import { useEffect } from 'react';
@@ -11,6 +12,7 @@ function App() {
   useEffect(()=>{
     checkAuth();
   },[checkAuth]);
+  if (isCheckingAuth) return <PageLoader/>
   return (
     <BrowserRouter>
       <Routes>
