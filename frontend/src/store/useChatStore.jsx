@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {axiosInstance} from "../lib/axios.js";
 
+
 export const useChatStore = create((set,get) => ({
     allContacts: [],
     chats:[],
@@ -46,5 +47,18 @@ export const useChatStore = create((set,get) => ({
             set({isUsersLoading:false});
         }
     },
-
+    getMessageByUserId: async(userId) =>{
+        set({isMessagesLoading:true});
+        try{
+            const res = await axiosInstance.get(`/message/${userId}`);
+            console.log("Messages fetched for userId", userId, res.data);
+            set({messages:res.data});
+        }
+        catch(e){
+            console.log("Error al obtener mensajes",e);
+        }
+        finally{
+            set({isMessagesLoading:false});
+        }
+    },
 }));

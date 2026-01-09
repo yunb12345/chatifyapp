@@ -1,7 +1,12 @@
-import { useState } from "react"
-import { MessageCircle, Phone, Video, MoreVertical, Send, Paperclip, Smile, Search } from "lucide-react"
+import { useState } from "react";
+import { MessageCircle, Phone, Video, MoreVertical, Send, Paperclip, Smile, Search } from "lucide-react";
+import ChatList from "../ChatList";
+import ChatContainer from "../ChatContainer";
+import NoChatSelected from "../NoChatSelected";
+import { useChatStore } from "../../store/useChatStore";
 
 export default function ChatDemo() {
+  const { selectedUser } = useChatStore();
   const [message, setMessage] = useState("")
   const [selectedChat, setSelectedChat] = useState(1)
   const [messages, setMessages] = useState([
@@ -105,102 +110,12 @@ export default function ChatDemo() {
           </div>
 
           {/* Chat List */}
-          <div className="flex-1 overflow-y-auto">
-            {chats.map((chat) => (
-              <button
-                key={chat.id}
-                onClick={() => setSelectedChat(chat.id)}
-                className={`w-full p-4 flex items-center gap-3 hover:bg-neutral-900 transition-colors border-b border-neutral-800 ${
-                  selectedChat === chat.id ? "bg-neutral-900" : ""
-                }`}
-              >
-                <div className="relative">
-                  <img
-                    src={chat.avatar}
-                    alt={chat.name}
-                    className="h-12 w-12 rounded-full"
-                  />
-                  {chat.online && (
-                    <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />
-                  )}
-                </div>
-                <div className="flex-1 text-left min-w-0">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold text-white truncate">{chat.name}</span>
-                    <span className="text-xs text-neutral-500">{chat.time}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm text-neutral-400 truncate">{chat.lastMessage}</p>
-                    {chat.unread && (
-                      <span className="ml-2 bg-white text-black text-xs rounded-full h-5 w-5 flex items-center justify-center flex-shrink-0 font-medium">
-                        {chat.unread}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
+          <ChatList />
         </aside>
 
         {/* Main Chat Area */}
         <main className="flex-1 flex flex-col bg-black">
-          {/* Chat Header */}
-          <div className="border-b border-neutral-800 bg-black px-4 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <img
-                    src={currentChat?.avatar}
-                    alt={currentChat?.name}
-                    className="h-10 w-10 rounded-full"
-                  />
-                  {currentChat?.online && (
-                    <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />
-                  )}
-                </div>
-                <div>
-                  <h2 className="font-semibold text-white">{currentChat?.name}</h2>
-                  <p className="text-xs text-neutral-400">
-                    {currentChat?.online ? "En línea" : "Última vez ayer"}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-md transition-colors">
-                  <Phone className="h-5 w-5" />
-                </button>
-                <button className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-md transition-colors">
-                  <Video className="h-5 w-5" />
-                </button>
-                <button className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-900 rounded-md transition-colors">
-                  <MoreVertical className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.sent ? "justify-end" : "justify-start"}`}>
-                <div
-                  className={`max-w-[70%] rounded-2xl px-4 py-2 ${
-                    msg.sent
-                      ? "bg-white text-black rounded-br-sm"
-                      : "bg-neutral-900 text-white rounded-bl-sm border border-neutral-800"
-                  }`}
-                >
-                  <p className="text-sm leading-relaxed">{msg.text}</p>
-                  <span
-                    className={`text-xs mt-1 block ${msg.sent ? "text-neutral-600" : "text-neutral-400"}`}
-                  >
-                    {msg.time}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          {selectedUser ? <ChatContainer /> : <NoChatSelected />}
 
           {/* Message Input */}
           <div className="border-t border-neutral-800 bg-black p-4">
