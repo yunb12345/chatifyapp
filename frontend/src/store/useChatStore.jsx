@@ -1,5 +1,6 @@
 import {create} from "zustand";
 import {axiosInstance} from "../lib/axios.js";
+import { useAuthStore } from "./useAuthStore.jsx";
 
 
 export const useChatStore = create((set,get) => ({
@@ -63,6 +64,19 @@ export const useChatStore = create((set,get) => ({
     },
     sendMessage: async(messageData) =>{
         const {selectedUser,messages} = get();
+        const {authUser} = useAuthStore.getState();
+
+        const tempId = `temp-${Date.now()}`;
+        const optimisticMessage = {
+            _id: tempId,
+            senderId: authUser._id,
+            receiverId: selectedUser._id,
+            text: messageData.text,
+            image: messageData.image || null,
+            createdAt: new Date().toISOString(),
+            isOptimistic: true,
+        };
+        set({messages: [...messages, optimisticMessage]});
         if (!selectedUser) return;
         try{
             const res = await axiosInstance.post(`/message/send/${selectedUser._id}`, messageData);
