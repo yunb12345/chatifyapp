@@ -26,7 +26,7 @@ export const getMessageByUserId = async (req,res) => {
                 {senderId:userToChatId,receiverId:myId},
             ]
         });
-        res.status(200).json(messages);
+        res.status(200).json(message);
     }
     catch(e){
         console.log("Error in getMessage controller:",e);

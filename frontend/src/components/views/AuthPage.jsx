@@ -4,7 +4,7 @@ import Nav from "../Nav"
 import {useAuthStore} from "../../store/useAuthStore";
 
 export default function AuthPage() {
-  const {signup,isSigningUp} = useAuthStore();
+  const {signup,isSigningUp,login,isLoginIn} = useAuthStore();
   const [isRegister, setIsRegister] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -34,7 +34,12 @@ export default function AuthPage() {
       //console.log("Registro:", formData)
     } else {
       // Handle login
-      console.log("Login:", { email: formData.email, password: formData.password })
+      const payload = {
+        email:formData.email,
+        password:formData.password,
+      }
+      login(payload);
+      //console.log("Login:", { email: formData.email, password: formData.password })
     }
   }
 
@@ -311,7 +316,7 @@ export default function AuthPage() {
 
                 <button
                   type="submit"
-                  disabled={isSigningUp}
+                  disabled={isSigningUp || isLoginIn}
                   className="w-full px-8 py-3 border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 rounded-full"
                 >
                   {isRegister ? "CREAR CUENTA" : "INICIAR SESIÓN"}
