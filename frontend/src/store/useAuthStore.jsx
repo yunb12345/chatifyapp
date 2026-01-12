@@ -78,7 +78,7 @@ export const useAuthStore = create((set)=>({ //la variable set sirve para actual
     
     connectSocket: () =>{
         const {authUser} = get();
-        if(!authUser || get().socket?connected) return;
+        if(!authUser || get().socket?.connected) return;
 
         const socket = io(BASE_URL,{
             withCredentials:true //esto asegura que las cookies se envien junto con la conexion
