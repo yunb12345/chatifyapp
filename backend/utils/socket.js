@@ -16,6 +16,11 @@ const io = new Server(server,{
 
 io.use(socketAuthMiddleware);
 
+//funcion para saber si el usuario esta online
+export function getReceiverSocketId(userId){
+    return userSocketMap[userId];
+}
+
 //esto es para almacenar los usuarios online
 const userSocketMap = {}; // {userId: socketId}
 
