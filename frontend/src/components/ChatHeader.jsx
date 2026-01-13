@@ -1,8 +1,12 @@
 import {useChatStore} from "../store/useChatStore.jsx";
+import { useAuthStore } from "../store/useAuthStore.jsx";
 import { Phone, Video, MoreVertical } from "lucide-react";
 
 function ChatHeader() {
   const { selectedUser } = useChatStore();
+  const { onlineUsers } = useAuthStore();
+  const isOnline = onlineUsers.includes(selectedUser?._id);
+  
   return (
     <>
         <div className="border-b border-neutral-800 bg-black px-4 py-3">
@@ -14,9 +18,9 @@ function ChatHeader() {
                     alt={selectedUser?.fullName}
                     className="h-10 w-10 rounded-full"
                   />
-                  {/* {currentChat?.online && (
+                  {isOnline && (
                     <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />
-                  )} */}
+                  )}
                 </div>
                 <div>
                   <h2 className="font-semibold text-white">{selectedUser?.fullName}</h2>

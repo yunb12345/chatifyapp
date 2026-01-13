@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
+import { useAuthStore } from "../store/useAuthStore";
 import UserLoadingSkeleton from "./UserLoadingSkeleton";
 import NoChatsFound from "./NoChatsFound";
 
 function ChatList() {
     const {getMyChatPartners, chats, isUsersLoading, setSelectedUser,selectedUser} = useChatStore();
+    const {onlineUsers} = useAuthStore();
+
     useEffect(() => {
         getMyChatPartners();
     }, [getMyChatPartners]);
@@ -22,7 +25,7 @@ function ChatList() {
                     selectedUser === chat ? "bg-neutral-900" : ""
                     }`}
                 >
-                    <div className={`avatar online`}>
+                    <div className={`avatar ${onlineUsers.includes(chat._id) ? 'online' : 'offline'}`}>
                         <div className="relative">
                             <img src={chat.profilePic || "/default-profile.png"} alt={chat.fullName} className="h-12 w-12 rounded-full" />
                             <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />

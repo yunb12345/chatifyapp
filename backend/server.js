@@ -7,10 +7,11 @@ import cors from 'cors';
 import authRoute from './routes/authRoute.js';
 import messageRoute from './routes/messageRoute.js';
 
+import {app, server} from './utils/socket.js';
 import {connectDB} from './db/db.js';
 
 dotenv.config();
-const app = express();
+
 const __dirname = path.resolve();
 app.use(express.json({limit:'5mb'}));
 app.use(cors({origin: process.env.CLIENT_URL, credentials:true}));
@@ -31,7 +32,7 @@ if(process.env.NODE_ENV === "production"){
   });
 }
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log('Server is running on port 3000');
   connectDB();
 });
