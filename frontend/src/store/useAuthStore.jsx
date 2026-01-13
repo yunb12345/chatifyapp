@@ -2,11 +2,10 @@ import {create} from "zustand"; //zustand para gestionar el estado global
 import {axiosInstance} from "../lib/axios.js";
 import toast from "react-hot-toast";
 import {io} from "socket.io-client";
-import { disconnect } from "mongoose";
 
 const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
 
-export const useAuthStore = create((set)=>({ //la variable set sirve para actualizar los estados
+export const useAuthStore = create((set,get)=>({ //la variable set sirve para actualizar los estados
     authUser:null,
     isCheckingAuth: true,
     isSigningUp:false,
@@ -50,9 +49,10 @@ export const useAuthStore = create((set)=>({ //la variable set sirve para actual
         try{
             const res = await axiosInstance.post("/auth/login",data);
             set({authUser:res.data});
+            get().connectSocket();
+
             toast.success("Cuenta logueada exitosamente!");
 
-            get().connectSocket();
         }
         catch(e){
             console.log("Error al loguearse",e);
@@ -82,8 +82,10 @@ export const useAuthStore = create((set)=>({ //la variable set sirve para actual
 
         const socket = io(BASE_URL,{
             withCredentials:true //esto asegura que las cookies se envien junto con la conexion
-        })
+        });
+
         socket.connect();
+        
         set({socket});//almacenamos la instancia del socket en el estado
 
         //escuchar evento cuando los usuarios estan conectados

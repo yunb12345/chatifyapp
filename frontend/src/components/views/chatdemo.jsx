@@ -4,10 +4,17 @@ import ChatList from "../ChatList";
 import ChatContainer from "../ChatContainer";
 import NoChatSelected from "../NoChatSelected";
 import { useChatStore } from "../../store/useChatStore";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export default function ChatDemo() {
   const { selectedUser } = useChatStore();
+  const { logout } = useAuthStore();
 
+  const handleLogout = async () => {
+    await logout();
+    window.location.href = '/';
+  };
+  
   return (
     <div className="h-screen flex flex-col bg-black">
       {/* Header */}
@@ -20,8 +27,8 @@ export default function ChatDemo() {
             </button>
           </div>
           <div className="text-sm text-neutral-400">Demo de la Aplicación</div>
-          <button onClick={() => window.location.href = '/'} className="px-4 py-2 border border-neutral-800 text-white rounded-md text-sm hover:bg-neutral-900 transition-colors">
-            Volver
+          <button onClick={handleLogout} className="px-4 py-2 border border-neutral-800 text-white rounded-md text-sm hover:bg-neutral-900 transition-colors">
+            Cerrar Sesion
           </button>
         </div>
       </header>

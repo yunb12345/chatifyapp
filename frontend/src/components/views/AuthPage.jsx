@@ -2,9 +2,11 @@ import { useState, useEffect } from "react"
 import { Mail, Lock, User, ArrowRight, Quote } from "lucide-react"
 import Nav from "../Nav"
 import {useAuthStore} from "../../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
-  const {signup,isSigningUp,login,isLoginIn} = useAuthStore();
+  const {signup,isSigningUp,login,isLoginIn, authUser} = useAuthStore();
+  const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
@@ -20,8 +22,14 @@ export default function AuthPage() {
       setIsRegister(true)
     }
   }, [])
+  
+  useEffect(() => {
+    if (authUser) {
+      navigate('/chat');
+    }
+  }, [authUser, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (isRegister) {
       // Handle registration
@@ -30,16 +38,15 @@ export default function AuthPage() {
         email:formData.email,
         password:formData.password,
       }
-      signup(payload);
-      //console.log("Registro:", formData)
+      await signup(payload);
+
     } else {
       // Handle login
       const payload = {
         email:formData.email,
         password:formData.password,
       }
-      login(payload);
-      //console.log("Login:", { email: formData.email, password: formData.password })
+      await login(payload);
     }
   }
 

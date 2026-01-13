@@ -86,5 +86,21 @@ export const useChatStore = create((set,get) => ({
             console.log("Error al enviar mensaje",e);
         }
     },
+    subscribeToMessages: () => {
+        const {selecteduser} = get();
+        if (!selecteduser) return;
+
+        const socket = useAuthStore.getState().socket;
+        socket.on("newMessage",(newMessage) => {
+            const currentMessages = get().messages;
+            set({messages:[...currentMessages,newMessage]});
+            
+        })
+    },
+    unSubscribeFromNewMessages: () => {
+        const socket = useAuthStore.getState().socket;
+        if (!socket) return;
+        socket.off("newMessage");
+    },
 
 }));
