@@ -27,7 +27,7 @@ function ChatList() {
                 >
                     <div className={`avatar ${onlineUsers.includes(chat._id) ? 'online' : 'offline'}`}>
                         <div className="relative">
-                            <img src={chat.profilePic || "/default-profile.png"} alt={chat.fullName} className="h-12 w-12 rounded-full" />
+                            <img src={chat.profilePic || "/avatar.png"} alt={chat.fullName} className="h-12 w-12 rounded-full" />
                             <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />
                         </div>
                     </div>

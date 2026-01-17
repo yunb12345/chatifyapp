@@ -6,7 +6,7 @@ import NoChatSelected from "../NoChatSelected";
 import { useChatStore } from "../../store/useChatStore";
 import { useAuthStore } from "../../store/useAuthStore";
 
-export default function ChatDemo() {
+export default function ChatPage() {
   const { selectedUser } = useChatStore();
   const { logout } = useAuthStore();
 
@@ -26,7 +26,6 @@ export default function ChatDemo() {
               <span className="text-xl font-semibold text-white hidden sm:inline">Chatify</span>
             </button>
           </div>
-          <div className="text-sm text-neutral-400">Demo de la Aplicación</div>
           <button onClick={handleLogout} className="px-4 py-2 border border-neutral-800 text-white rounded-md text-sm hover:bg-neutral-900 transition-colors">
             Cerrar Sesion
           </button>
