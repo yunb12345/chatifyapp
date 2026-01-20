@@ -19,7 +19,6 @@ io.use(socketAuthMiddleware);
 
 //funcion para saber si el usuario esta online
 export function getReceiverSocketId(userId){
-    console.log(userSocketMap);
     return userSocketMap[userId];
 }
 
