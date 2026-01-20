@@ -17,6 +17,7 @@ export const useAuthStore = create((set,get)=>({ //la variable set sirve para ac
         try{
             const res = await axiosInstance.get("/auth/check");
             set({authUser:res.data});
+            get().connectSocket();
         }
         catch(e){
             console.log("Error en authCheck",e);
@@ -89,8 +90,8 @@ export const useAuthStore = create((set,get)=>({ //la variable set sirve para ac
         set({socket});//almacenamos la instancia del socket en el estado
 
         //escuchar evento cuando los usuarios estan conectados
-        socket.on("getOnlineUsers",(usersIds)=>{
-            set({onlineUsers:usersIds});
+        socket.on("getOnlineUsers",(userIds)=>{
+            set({onlineUsers:userIds});
         });
     },
 
