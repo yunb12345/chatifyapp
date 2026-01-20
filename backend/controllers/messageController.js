@@ -54,12 +54,13 @@ export const sendMessage = async (req,res) => {
             image:imageUrl,
         });
         await newMessage.save();
-        res.status(201).json(newMessage);
+
         // todo: enviar mensje en tiempo real si el usuario esta online con socket
         const receiverSocketId = getReceiverSocketId(receiverId);
         if (receiverSocketId){
             io.to(receiverSocketId).emit("newMessage",newMessage);
-        }
+        };
+        res.status(201).json(newMessage);
     }
     catch(e){
         console.log("Erroor in sendMessage controller",e);

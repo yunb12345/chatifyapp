@@ -4,6 +4,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { socketAuthMiddleware } from '../middlewares/socket.auth.middleware.js';
 
+dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
@@ -18,6 +19,7 @@ io.use(socketAuthMiddleware);
 
 //funcion para saber si el usuario esta online
 export function getReceiverSocketId(userId){
+    console.log(userSocketMap);
     return userSocketMap[userId];
 }
 
