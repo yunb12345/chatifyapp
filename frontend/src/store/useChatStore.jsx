@@ -91,7 +91,6 @@ export const useChatStore = create((set,get) => ({
         if (!selectedUser) return;
 
         const socket = useAuthStore.getState().socket;
-        console.log(socket);
         socket.on("newMessage",(newMessage) => {
             const currentMessages = get().messages;
             set({messages:[...currentMessages,newMessage]});
