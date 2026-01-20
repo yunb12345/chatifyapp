@@ -3,6 +3,7 @@ import {BrowserRouter} from 'react-router-dom';
 import LandingPage from './LandingPage.jsx';
 import ChatPage from './components/views/ChatPage.jsx';
 import AuthPage from './components/views/AuthPage.jsx';
+import ProfilePage from './components/views/ProfilePage.jsx';
 import PageLoader from './components/PageLoader.jsx';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore.jsx';
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={authUser ? <Navigate to={"/chat"}/> : <LandingPage />}/>
         <Route path="/chat" element={authUser ?<ChatPage /> : <Navigate to="/login" />} />
         <Route path="/login" element={<AuthPage />} />
+        <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
       
       <Toaster/>

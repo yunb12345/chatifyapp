@@ -19,7 +19,7 @@ function ChatHeader() {
                     className="h-10 w-10 rounded-full"
                   />
                   {isOnline && (
-                    <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />
+                    <div className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-[#E5E7EB] rounded-full border-2 border-black" />
                   )}
                 </div>
                 <div>

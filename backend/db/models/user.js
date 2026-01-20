@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
     profilePic:{
         type: String,
         default: "",
+    },
+    phone:{
+        type: String,
+        default: "",
     }
 },
 {timestamps:true}

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 import { Mail, Lock, User, ArrowRight, Quote } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import Nav from "../Nav"
 import {useAuthStore} from "../../store/useAuthStore";
-import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
-  const {signup,isSigningUp,login,isLoginIn, authUser} = useAuthStore();
+  const {signup,isSigningUp,login,isLogginIn, authUser} = useAuthStore();
   const navigate = useNavigate();
   const [isRegister, setIsRegister] = useState(false)
   const [formData, setFormData] = useState({
@@ -14,6 +14,7 @@ export default function AuthPage() {
     password: "",
     confirmPassword: ""
   })
+  const [error, setError] = useState("")
 
   // Check URL params for register mode
   useEffect(() => {
@@ -31,22 +32,33 @@ export default function AuthPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (isRegister) {
-      // Handle registration
-      const payload = {
-        fullName: formData.name,
-        email:formData.email,
-        password:formData.password,
-      }
-      await signup(payload);
+    setError("")
 
-    } else {
-      // Handle login
-      const payload = {
-        email:formData.email,
-        password:formData.password,
+    try {
+      if (isRegister) {
+        // Validar confirmación de contraseña
+        if (formData.password !== formData.confirmPassword) {
+          setError("Las contraseñas no coinciden")
+          return
+        }
+
+        // Handle registration
+        const payload = {
+          fullName: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }
+        await signup(payload);
+      } else {
+        // Handle login
+        const payload = {
+          email: formData.email,
+          password: formData.password,
+        }
+        await login(payload);
       }
-      await login(payload);
+    } catch (err) {
+      setError("Ocurrió un error. Intenta nuevamente.")
     }
   }
 
@@ -321,13 +333,28 @@ export default function AuthPage() {
                   </div>
                 </div>
 
+                {error && (
+                  <div className="bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg p-4">
+                    {error}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  disabled={isSigningUp || isLoginIn}
-                  className="w-full px-8 py-3 border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 rounded-full"
+                  disabled={isSigningUp || isLogginIn}
+                  className="w-full px-8 py-3 border-2 border-white text-white font-medium hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isRegister ? "CREAR CUENTA" : "INICIAR SESIÓN"}
-                  <ArrowRight className="h-5 w-5" />
+                  {(isSigningUp || isLogginIn) ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      {isRegister ? "CREANDO CUENTA..." : "INICIANDO SESIÓN..."}
+                    </>
+                  ) : (
+                    <>
+                      {isRegister ? "CREAR CUENTA" : "INICIAR SESIÓN"}
+                      <ArrowRight className="h-5 w-5" />
+                    </>
+                  )}
                 </button>
 
                 {!isRegister && (

@@ -71,8 +71,16 @@ function MessageInput() {
                         type="text"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                if (message.trim()) {
+                                    handleSendMessage(e);
+                                }
+                            }
+                        }}
                         placeholder="Escribe un mensaje..."
-                        className="w-full px-4 py-2 pr-10 bg-neutral-900 border border-neutral-800 rounded-md text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-white"
+                        className="w-full px-4 py-2 pr-10 bg-neutral-900 border border-neutral-800 rounded-md text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-[#E5E7EB]/50 focus:border-[#E5E7EB]/50"
                     />
                     <input
                         type="file"
@@ -85,7 +93,7 @@ function MessageInput() {
                 <button
                     onClick={handleSendMessage}
                     disabled={!message.trim()}
-                    className="p-2 bg-white text-black rounded-md hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-2 bg-[#E5E7EB] text-black rounded-md hover:bg-[#D1D5DB] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <Send className="h-5 w-5" />
                 </button>

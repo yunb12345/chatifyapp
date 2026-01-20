@@ -81,6 +81,9 @@ export const useChatStore = create((set,get) => ({
         try{
             const res = await axiosInstance.post(`/message/send/${selectedUser._id}`, messageData);
             set({messages:messages.concat(res.data) });
+            
+            // Actualizar la lista de chats después de enviar un mensaje
+            get().getMyChatPartners();
 
         }catch(e){
             console.log("Error al enviar mensaje",e);
@@ -91,16 +94,35 @@ export const useChatStore = create((set,get) => ({
         if (!selectedUser) return;
 
         const socket = useAuthStore.getState().socket;
+        if (!socket) return;
+        
         socket.on("newMessage",(newMessage) => {
             const currentMessages = get().messages;
             set({messages:[...currentMessages,newMessage]});
             
+            // Actualizar la lista de chats cuando se recibe un nuevo mensaje
+            // para mantener el orden por último mensaje
+            get().getMyChatPartners();
         });
     },
     unSubscribeFromNewMessages: () => {
         const socket = useAuthStore.getState().socket;
         if (!socket) return;
         socket.off("newMessage");
+    },
+    searchUsers: async(query) => {
+        set({isUsersLoading:true});
+        try{
+            const res = await axiosInstance.get(`/message/search?query=${encodeURIComponent(query)}`);
+            return res.data;
+        }
+        catch(e){
+            console.log("Error al buscar usuarios",e);
+            return [];
+        }
+        finally{
+            set({isUsersLoading:false});
+        }
     },
 
 }));
