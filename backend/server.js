@@ -14,8 +14,9 @@ dotenv.config();
 
 const __dirname = path.resolve();
 app.use(express.json({limit:'5mb'}));
-const clientUrl = process.env.CLIENT_URL?.replace(/\/+$/, '') || 'http://localhost:5173';
-app.use(cors({origin: clientUrl, credentials:true}));
+app.use(cors({origin: process.env.CLIENT_URL, credentials:true}));
+//const clientUrl = process.env.CLIENT_URL?.replace(/\/+$/, '') || 'http://localhost:5173';
+//app.use(cors({origin: clientUrl, credentials:true}));
 app.use(express.urlencoded({
     extended: true
 }));

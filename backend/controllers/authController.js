@@ -41,7 +41,6 @@ export const signup = async (req,res) =>{
                 fullName:newUser.fullName,
                 email:newUser.email,
                 profilePic:newUser.profilePic,
-                phone:newUser.phone || "",
             });
 
             try{
@@ -78,7 +77,6 @@ export const login = async (req,res) => {
             fullName: user.fullName,
             email: user.email,
             profilePic: user.profilePic,
-            phone: user.phone || "",
         })
     }
     catch(e){
@@ -94,16 +92,12 @@ export const logout = (_,res) => {
 
 export const updateProfile = async (req,res) => {
     try{
-        const {fullName, phone, profilePic} = req.body;
+        const {fullName, profilePic} = req.body;
         const userId = req.user._id;
         const updateData = {};
 
         if(fullName){
             updateData.fullName = fullName;
-        }
-
-        if(phone !== undefined){
-            updateData.phone = phone;
         }
 
         if(profilePic){
@@ -122,7 +116,6 @@ export const updateProfile = async (req,res) => {
             fullName: updatedUser.fullName,
             email: updatedUser.email,
             profilePic: updatedUser.profilePic,
-            phone: updatedUser.phone,
         });
     }
     catch(e){
