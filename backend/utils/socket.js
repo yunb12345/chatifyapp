@@ -5,11 +5,15 @@ import dotenv from 'dotenv';
 import { socketAuthMiddleware } from '../middlewares/socket.auth.middleware.js';
 
 dotenv.config();
+
 const app = express();
 const server = http.createServer(app);
 
+//const clientUrl = process.env.CLIENT_URL?.replace(/\/+$/, '') || 'http://localhost:5173';
+
 const io = new Server(server,{
     cors:{
+        //origin: clientUrl,
         origin: process.env.CLIENT_URL,
         credentials:true,
     },

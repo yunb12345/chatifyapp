@@ -71,10 +71,11 @@ export const sendMessage = async (req,res) => {
 export const getChatPartners = async (req,res) =>{
     try{
         const loggedInUserId = req.user._id;
-        //encontrar todos los mensajes donde el usuario manda o recive mensajes
+        //encontrar todos los mensajes donde el usuario manda o recive mensajes, ordenados por fecha más reciente
         const messages = await Message.find({
             $or:[{senderId:loggedInUserId},{receiverId:loggedInUserId}]
-        });
+        }).sort({createdAt: -1});
+        
         const getChatPartnersIds = [
             ...new Set(
                 messages.map((msg) =>
@@ -85,12 +86,75 @@ export const getChatPartners = async (req,res) =>{
                 )
             ),
         ];
+        
         //el Set es para eliminar duplicados
         const chatPartners = await User.find({_id:{$in:getChatPartnersIds}}).select("-password");
-        res.status(200).json(chatPartners);
+        
+        // Crear un mapa para obtener el último mensaje de cada chat
+        const lastMessageMap = {};
+        messages.forEach((msg) => {
+            const partnerId = msg.senderId.toString() === loggedInUserId.toString() 
+                ? msg.receiverId.toString()
+                : msg.senderId.toString();
+            
+            if (!lastMessageMap[partnerId] || new Date(msg.createdAt) > new Date(lastMessageMap[partnerId].createdAt)) {
+                lastMessageMap[partnerId] = {
+                    text: msg.text,
+                    createdAt: msg.createdAt,
+                    senderId: msg.senderId.toString()
+                };
+            }
+        });
+        
+        // Ordenar los chats por la fecha del último mensaje
+        const sortedChatPartners = chatPartners.sort((a, b) => {
+            const lastMsgA = lastMessageMap[a._id.toString()];
+            const lastMsgB = lastMessageMap[b._id.toString()];
+            
+            if (!lastMsgA && !lastMsgB) return 0;
+            if (!lastMsgA) return 1;
+            if (!lastMsgB) return -1;
+            
+            return new Date(lastMsgB.createdAt) - new Date(lastMsgA.createdAt);
+        });
+        
+        // Agregar información del último mensaje a cada chat
+        const chatsWithLastMessage = sortedChatPartners.map(partner => {
+            const lastMsg = lastMessageMap[partner._id.toString()];
+            return {
+                ...partner.toObject(),
+                lastMessage: lastMsg ? lastMsg.text : null,
+                lastMessageDate: lastMsg ? lastMsg.createdAt : null
+            };
+        });
+        
+        res.status(200).json(chatsWithLastMessage);
     }
     catch(e){
         console.log("Erroor in getChatPartners controller",e);
+        res.status(500).json({error:"Internal Server Error"});
+    }
+}
+
+export const searchUsers = async (req,res) => {
+    try{
+        const loggedInUserId = req.user._id;
+        const { query } = req.query;
+        
+        if(!query || query.trim() === ''){
+            return res.status(400).json({message:"Query parameter is required"});
+        }
+
+        // Buscar usuarios por nombre que coincida con el query (case insensitive)
+        const users = await User.find({
+            _id: {$ne: loggedInUserId},
+            fullName: { $regex: query, $options: 'i' }
+        }).select("-password").limit(20);
+
+        res.status(200).json(users);
+    }
+    catch(e){
+        console.log("Error in searchUsers controller",e);
         res.status(500).json({error:"Internal Server Error"});
     }
 }

@@ -92,19 +92,34 @@ export const logout = (_,res) => {
 
 export const updateProfile = async (req,res) => {
     try{
-        const {profilePic} = req.body;
-        if(!profilePic) return res.status(400).json({message:"Se necesita foto de perfil"});
+        const {fullName, profilePic} = req.body;
         const userId = req.user._id;
+        const updateData = {};
 
-        const response = await cloudinary.uploader.upload(profilePic);
-        const updatedUser = await User.findByIdAndUpdate(userId,
-            {profilePic:uploadResponse.secure_url},
+        if(fullName){
+            updateData.fullName = fullName;
+        }
+
+        if(profilePic){
+            const uploadResponse = await cloudinary.uploader.upload(profilePic);
+            updateData.profilePic = uploadResponse.secure_url;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            updateData,
             {new:true}
-        );
-        res.status(200).json(updatedUser);
+        ).select("-password");
+
+        res.status(200).json({
+            _id: updatedUser._id,
+            fullName: updatedUser.fullName,
+            email: updatedUser.email,
+            profilePic: updatedUser.profilePic,
+        });
     }
     catch(e){
-        console.error("Error al actualizar foto de perfil",e);
-        res.stauts(500).json({message:"Internal server error"});
+        console.error("Error al actualizar perfil",e);
+        res.status(500).json({message:"Internal server error"});
     }
 }

@@ -52,7 +52,7 @@ function ChatContainer() {
                             <div
                             className={`max-w-[70%] rounded-2xl px-4 py-2 ${
                                 msg.senderId === authUser._id
-                                ? "bg-white text-black rounded-br-sm"
+                                ? "bg-[#E5E7EB] text-black rounded-br-sm"
                                 : "bg-neutral-900 text-white rounded-bl-sm border border-neutral-800"
                             }`}
                             >

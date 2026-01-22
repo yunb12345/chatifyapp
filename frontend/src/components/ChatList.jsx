@@ -4,31 +4,51 @@ import { useAuthStore } from "../store/useAuthStore";
 import UserLoadingSkeleton from "./UserLoadingSkeleton";
 import NoChatsFound from "./NoChatsFound";
 
-function ChatList() {
+function ChatList({ searchQuery = "" }) {
     const {getMyChatPartners, chats, isUsersLoading, setSelectedUser,selectedUser} = useChatStore();
     const {onlineUsers} = useAuthStore();
 
     useEffect(() => {
         getMyChatPartners();
     }, [getMyChatPartners]);
+    
+    // Filtrar chats basándose en el término de búsqueda
+    const filteredChats = chats.filter((chat) => {
+        if (!searchQuery.trim()) return true;
+        const query = searchQuery.toLowerCase();
+        return chat.fullName?.toLowerCase().includes(query) || 
+               chat.email?.toLowerCase().includes(query);
+    });
+
     if (isUsersLoading) return <UserLoadingSkeleton />;
     if (chats.length === 0) return <NoChatsFound />;
+    if (filteredChats.length === 0 && searchQuery.trim()) {
+        return (
+            <div className="flex-1 flex items-center justify-center p-8">
+                <p className="text-neutral-400 text-center">
+                    No se encontraron conversaciones con "{searchQuery}"
+                </p>
+            </div>
+        );
+    }
 
     return (
         <>
             <div className="flex-1 overflow-y-auto">
-                {chats.map((chat) => (
+                {filteredChats.map((chat) => (
                 <button
-                    key={chat.id}
+                    key={chat._id}
                     onClick={() => setSelectedUser(chat)}
                     className={`w-full p-4 flex items-center gap-3 hover:bg-neutral-900 transition-colors border-b border-neutral-800 ${
-                    selectedUser === chat ? "bg-neutral-900" : ""
+                    selectedUser?._id === chat._id ? "bg-neutral-900" : ""
                     }`}
                 >
                     <div className={`avatar ${onlineUsers.includes(chat._id) ? 'online' : 'offline'}`}>
                         <div className="relative">
                             <img src={chat.profilePic || "/avatar.png"} alt={chat.fullName} className="h-12 w-12 rounded-full" />
-                            <div className="absolute bottom-0 right-0 h-3 w-3 bg-white rounded-full border-2 border-black" />
+                            {onlineUsers.includes(chat._id) && (
+                              <div className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-[#E5E7EB] rounded-full border-2 border-black" />
+                            )}
                         </div>
                     </div>
                     <div className="flex-1 text-left min-w-0">

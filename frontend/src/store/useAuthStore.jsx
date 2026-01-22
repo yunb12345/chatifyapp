@@ -57,7 +57,8 @@ export const useAuthStore = create((set,get)=>({ //la variable set sirve para ac
         }
         catch(e){
             console.log("Error al loguearse",e);
-            toast.error(e.response.data.message);
+            const errorMessage = e.response?.data?.message || e.message || "Error al iniciar sesión";
+            toast.error(errorMessage);
         }
         finally{
             set({isLogginIn:false})
@@ -97,5 +98,19 @@ export const useAuthStore = create((set,get)=>({ //la variable set sirve para ac
 
     disconnectSocket: () =>{
         if(get().socket?.connected) get().socket.disconnect();
+    },
+    updateProfile: async(updateData) => {
+        try{
+            const res = await axiosInstance.put("/auth/update-profile", updateData);
+            set({authUser: res.data});
+            toast.success("Perfil actualizado exitosamente!");
+            return res.data;
+        }
+        catch(e){
+            console.log("Error al actualizar perfil",e);
+            const errorMessage = e.response?.data?.message || e.message || "Error al actualizar perfil";
+            toast.error(errorMessage);
+            throw e;
+        }
     },
 }));
