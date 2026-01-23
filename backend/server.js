@@ -13,6 +13,7 @@ import {connectDB} from './db/db.js';
 dotenv.config();
 
 const __dirname = path.resolve();
+app.set("trust proxy", 1); // MUY IMPORTANTE en Render
 app.use(express.json({limit:'5mb'}));
 app.use(cors({origin: process.env.CLIENT_URL, credentials:true}));
 

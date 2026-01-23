@@ -6,7 +6,7 @@ export const generateToken = (userId,res) => {
         maxAge: 7*24*60*60*1000, // esta en milisegundos
         httpOnly: true, //esto es para prevenir XSS
         sameSite: "None", //previene CSRF || lo cambie porque ahora estan por separado damn
-        secure: process.env.NODE_ENV === "development" ? false:true, //si no es development el campo es falso
+        secure: process.env.NODE_ENV === "development" ? false:true, //si no es development el campo es true
     });
     return token;
 }
