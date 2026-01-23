@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {BrowserRouter} from 'react-router-dom';
 import LandingPage from './LandingPage.jsx';
 import ChatPage from './components/views/ChatPage.jsx';
