@@ -19,14 +19,14 @@ function ChatHeader() {
                     className="h-10 w-10 rounded-full"
                   />
                   {isOnline && (
-                    <div className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-[#E5E7EB] rounded-full border-2 border-black" />
+                    <div className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-green-500 rounded-full border-2 border-white shadow" />
                   )}
                 </div>
                 <div>
                   <h2 className="font-semibold text-white">{selectedUser?.fullName}</h2>
-                  {/* <p className="text-xs text-neutral-400">
-                    {currentChat?.online ? "En línea" : "Última vez ayer"}
-                  </p> */}
+                  <p className="text-xs text-neutral-400">
+                    {isOnline ? "En línea" : "Última vez ayer"}
+                  </p> 
                 </div>
               </div>
               <div className="flex items-center gap-2">

@@ -47,7 +47,7 @@ function ChatList({ searchQuery = "" }) {
                         <div className="relative">
                             <img src={chat.profilePic || "/avatar.png"} alt={chat.fullName} className="h-12 w-12 rounded-full" />
                             {onlineUsers.includes(chat._id) && (
-                              <div className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-[#E5E7EB] rounded-full border-2 border-black" />
+                              <div className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-green-500 rounded-full border-2 border-white shadow"/>
                             )}
                         </div>
                     </div>
