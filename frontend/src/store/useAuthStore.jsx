@@ -3,7 +3,7 @@ import {axiosInstance} from "../lib/axios.js";
 import toast from "react-hot-toast";
 import {io} from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : "https://chatifyapp-1-h5sb.onrender.com";
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:3000" : "https://profound-spontaneity-production-e505.up.railway.app";
 
 export const useAuthStore = create((set,get)=>({ //la variable set sirve para actualizar los estados
     authUser:null,
