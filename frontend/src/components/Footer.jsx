@@ -23,36 +23,16 @@ export default function Footer() {
                   Características
                 </a>
               </li>
-              <li>
-                <a href="#precios" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
-                  Precios
-                </a>
-              </li>
-              <li>
-                <a href="/chat" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
-                  Demo
-                </a>
-              </li>
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Equipo */}
           <div>
-            <h4 className="text-[#E5E7EB] font-semibold mb-4">Empresa</h4>
+            <h4 className="text-[#E5E7EB] font-semibold mb-4">Equipo</h4>
             <ul className="space-y-2">
               <li>
                 <a href="#sobre-nosotros" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
                   Sobre Nosotros
-                </a>
-              </li>
-              <li>
-                <a href="#blog" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#contacto" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
-                  Contacto
                 </a>
               </li>
             </ul>
@@ -63,41 +43,24 @@ export default function Footer() {
             <h4 className="text-[#E5E7EB] font-semibold mb-4">Síguenos</h4>
             <div className="flex gap-3">
               <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-[#E5E7EB]/30 flex items-center justify-center hover:bg-[#E5E7EB]/10 transition-colors"
-                aria-label="Email"
-              >
-                <Mail className="h-5 w-5 text-[#E5E7EB]/70" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-[#E5E7EB]/30 flex items-center justify-center hover:bg-[#E5E7EB]/10 transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5 text-[#E5E7EB]/70" />
-              </a>
-              <a 
-                href="#" 
-                className="w-10 h-10 rounded-full border border-[#E5E7EB]/30 flex items-center justify-center hover:bg-[#E5E7EB]/10 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5 text-[#E5E7EB]/70" />
-              </a>
-              <a 
-                href="#" 
+                href="https://www.linkedin.com/in/agusyoon/" 
+                target="_blank"
+                rel="noreferrer noopener"
                 className="w-10 h-10 rounded-full border border-[#E5E7EB]/30 flex items-center justify-center hover:bg-[#E5E7EB]/10 transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-5 w-5 text-[#E5E7EB]/70" />
               </a>
               <a 
-                href="#" 
+                href="https://github.com/yunb12345/chatifyapp" 
+                target="_blank"
+                rel="noreferrer noopener"
                 className="w-10 h-10 rounded-full border border-[#E5E7EB]/30 flex items-center justify-center hover:bg-[#E5E7EB]/10 transition-colors"
                 aria-label="GitHub"
               >
                 <Github className="h-5 w-5 text-[#E5E7EB]/70" />
               </a>
-            </div>
+            </div> 
           </div>
         </div>
 
@@ -106,17 +69,6 @@ export default function Footer() {
           <p className="text-[#E5E7EB]/60 text-sm">
             © {new Date().getFullYear()} Chatify. Todos los derechos reservados.
           </p>
-          <div className="flex gap-6 text-sm">
-            <a href="#privacidad" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] transition-colors">
-              Privacidad
-            </a>
-            <a href="#terminos" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] transition-colors">
-              Términos
-            </a>
-            <a href="#cookies" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] transition-colors">
-              Cookies
-            </a>
-          </div>
         </div>
       </div>
     </footer>
