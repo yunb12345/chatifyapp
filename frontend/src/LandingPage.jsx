@@ -127,6 +127,62 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* About Us Section */}
+      <section id="sobre-nosotros" className="py-20 px-6 bg-[#0f0f0f] relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#E5E7EB]">
+              Sobre Nosotros
+            </h2>
+            <p className="text-[#E5E7EB]/60 text-lg max-w-2xl mx-auto mt-4">
+              Somos un equipo apasionado por construir experiencias de chat modernas, rápidas y seguras. Con diseño centrado en el usuario y un backend sólido, hacemos que la comunicación fluya.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="bg-[#111111] border border-[#E5E7EB]/10 rounded-3xl p-8 shadow-lg">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-20 h-20 rounded-3xl bg-[#E5E7EB]/10 grid place-items-center text-3xl text-[#E5E7EB]">
+                  AG
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-[#E5E7EB]">Agustin Yoon</h3>
+                  <p className="text-[#E5E7EB]/60">Full Stack Developer</p>
+                </div>
+              </div>
+              <p className="text-[#E5E7EB]/70 leading-relaxed mb-4">
+                Con experiencia en React, Node.js y diseño de interfaces, Agustin lideró el desarrollo y la integración del chat en tiempo real.
+              </p>
+              <ul className="space-y-2 text-[#E5E7EB]/70">
+                <li>Arquitectura del front-end</li>
+                <li>Integración de socket.io</li>
+                <li>Diseño UI/UX del producto</li>
+              </ul>
+            </div>
+
+            <div className="bg-[#111111] border border-[#E5E7EB]/10 rounded-3xl p-8 shadow-lg">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-20 h-20 rounded-3xl bg-[#E5E7EB]/10 grid place-items-center text-3xl text-[#E5E7EB]">
+                  AL
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-[#E5E7EB]">Alex Yoon</h3>
+                  <p className="text-[#E5E7EB]/60">Frontend Developer</p>
+                </div>
+              </div>
+              <p className="text-[#E5E7EB]/70 leading-relaxed mb-4">
+                Alex se encargó del frontend, diseño de interfaces y experiencia de usuario.
+              </p>
+              <ul className="space-y-2 text-[#E5E7EB]/70">
+                <li>Diseño de interfaces</li>
+                <li>Desarrollo de componentes reutilizables</li>
+                <li>Experiencia de usuario</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section id="contacto" className="py-20 px-6 bg-[#E5E7EB]/5 relative">
         <div className="max-w-4xl mx-auto text-center">
