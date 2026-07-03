@@ -1,6 +1,11 @@
 import { Mail, Facebook, Twitter, Linkedin, Github } from "lucide-react"
 
 export default function Footer() {
+  const handleScrollTo = (sectionId) => (event) => {
+    event.preventDefault();
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <footer className="bg-black border-t border-[#E5E7EB]/10">
       <div className="max-w-7xl mx-auto px-6 py-12">
@@ -19,7 +24,11 @@ export default function Footer() {
             <h4 className="text-[#E5E7EB] font-semibold mb-4">Producto</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#caracteristicas" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
+                <a
+                  href="#caracteristicas"
+                  onClick={handleScrollTo('caracteristicas')}
+                  className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors"
+                >
                   Características
                 </a>
               </li>
@@ -31,7 +40,11 @@ export default function Footer() {
             <h4 className="text-[#E5E7EB] font-semibold mb-4">Equipo</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#sobre-nosotros" className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors">
+                <a
+                  href="#sobre-nosotros"
+                  onClick={handleScrollTo('sobre-nosotros')}
+                  className="text-[#E5E7EB]/60 hover:text-[#E5E7EB] text-sm transition-colors"
+                >
                   Sobre Nosotros
                 </a>
               </li>
