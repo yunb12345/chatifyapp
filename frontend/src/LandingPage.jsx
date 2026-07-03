@@ -1,9 +1,37 @@
 import { Quote, ArrowRight } from "lucide-react"
 import { HiChatBubbleLeftRight } from "react-icons/hi2"
+import { useState } from "react"
+import toast from "react-hot-toast"
 import Nav from "./components/Nav"
 import Footer from "./components/Footer"
 
 export default function LandingPage() {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
+  const [isSent, setIsSent] = useState(false)
+
+  const validateEmail = (value) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (isSent) return
+
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast.error("Por favor completa todos los campos.")
+      return
+    }
+
+    if (!validateEmail(email)) {
+      toast.error("Por favor ingresa un email válido.")
+      return
+    }
+
+    toast.success("Mensaje enviado correctamente.")
+    setIsSent(true)
+  }
   return (
     <div className="bg-black text-white min-h-screen">
       <Nav />
@@ -193,33 +221,43 @@ export default function LandingPage() {
             ¿Tienes preguntas? Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos lo antes posible.
           </p>
           <div className="bg-black/50 rounded-xl p-8 border border-[#E5E7EB]/10 max-w-md mx-auto">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <input
                   type="text"
                   placeholder="Tu nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full px-4 py-3 bg-[#E5E7EB]/5 border border-[#E5E7EB]/20 rounded-lg text-[#E5E7EB] placeholder-[#E5E7EB]/40 focus:outline-none focus:border-[#E5E7EB]/40 focus:ring-2 focus:ring-[#E5E7EB]/20 transition-colors"
+                  disabled={isSent}
                 />
               </div>
               <div>
                 <input
                   type="email"
                   placeholder="Tu email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 bg-[#E5E7EB]/5 border border-[#E5E7EB]/20 rounded-lg text-[#E5E7EB] placeholder-[#E5E7EB]/40 focus:outline-none focus:border-[#E5E7EB]/40 focus:ring-2 focus:ring-[#E5E7EB]/20 transition-colors"
+                  disabled={isSent}
                 />
               </div>
               <div>
                 <textarea
                   placeholder="Tu mensaje"
                   rows="4"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   className="w-full px-4 py-3 bg-[#E5E7EB]/5 border border-[#E5E7EB]/20 rounded-lg text-[#E5E7EB] placeholder-[#E5E7EB]/40 focus:outline-none focus:border-[#E5E7EB]/40 focus:ring-2 focus:ring-[#E5E7EB]/20 transition-colors resize-none"
+                  disabled={isSent}
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full px-8 py-3 border-2 border-[#E5E7EB] text-[#E5E7EB] font-medium hover:bg-[#E5E7EB] hover:text-black transition-all duration-300 rounded-full"
+                disabled={isSent}
+                className={`w-full px-8 py-3 border-2 rounded-full font-medium transition-all duration-300 ${isSent ? "border-[#5b5b5b] bg-[#5b5b5b] text-[#c9c9c9] cursor-not-allowed" : "border-[#E5E7EB] text-[#E5E7EB] hover:bg-[#E5E7EB] hover:text-black"}`}
               >
-                ENVIAR MENSAJE
+                {isSent ? "Mensaje enviado" : "ENVIAR MENSAJE"}
               </button>
             </form>
           </div>
